@@ -68,7 +68,7 @@ class _TabbarComponentsState extends State<TabbarComponents>
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
             child: Container(
-              height: MediaQuery.of(context).size.height,
+              height: Get.height,
               child: Column(
                 children: [
                   Container(
