@@ -23,7 +23,7 @@ class WelcomeView extends GetView<WelcomeController> {
                       child: Column(
                         children: [
                           Text(
-                            "Welcome to UpTodo",
+                            "Welcome to RememberMe",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Color(0xffFFFFFF),
