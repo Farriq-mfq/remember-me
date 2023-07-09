@@ -4,6 +4,8 @@ import '../modules/Onboarding/bindings/onboarding_binding.dart';
 import '../modules/Onboarding/views/onboarding_view.dart';
 import '../modules/Welcome/bindings/welcome_binding.dart';
 import '../modules/Welcome/views/welcome_view.dart';
+import '../modules/category/bindings/category_binding.dart';
+import '../modules/category/views/category_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -43,6 +45,11 @@ class AppPages {
       name: _Paths.REGISTER,
       page: () => const RegisterView(),
       binding: RegisterBinding(),
+    ),
+    GetPage(
+      name: _Paths.CATEGORY,
+      page: () => const CategoryView(),
+      binding: CategoryBinding(),
     ),
   ];
 }

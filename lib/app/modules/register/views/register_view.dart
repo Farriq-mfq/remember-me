@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:heroicons/heroicons.dart';
@@ -21,9 +22,7 @@ class RegisterView extends GetView<RegisterController> {
             child: Container(
               padding: const EdgeInsets.all(4),
               margin: const EdgeInsets.only(top: 5),
-              child: HeroIcon(
-                HeroIcons.chevronLeft,
-              ),
+              child: SvgPicture.asset("assets/icons/Back_Button.svg"),
             ),
           ),
         ),
