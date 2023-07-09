@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:remember_me/app/routes/app_pages.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -15,7 +16,7 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: index,
+      currentIndex: _getIndexActive(),
       selectedFontSize: 12,
       unselectedFontSize: 12,
       fixedColor: Color(0xffFFFFFF),
@@ -24,9 +25,20 @@ class _BottomBarState extends State<BottomBar> {
       type: BottomNavigationBarType.fixed,
       onTap: (value) {
         if (value != 2) {
-          setState(() {
-            index = value;
-          });
+          switch (value) {
+            case 0:
+              Get.offAndToNamed(Routes.HOME);
+              break;
+            case 1:
+              Get.offAndToNamed(Routes.CALENDER);
+              break;
+            case 3:
+              Get.offAndToNamed(Routes.HISTORY);
+              break;
+            case 4:
+              Get.offAndToNamed(Routes.PROFILE);
+              break;
+          }
         }
       },
       elevation: 0,
@@ -98,5 +110,20 @@ class _BottomBarState extends State<BottomBar> {
               ),
       ],
     );
+  }
+
+  int _getIndexActive() {
+    switch (Get.currentRoute) {
+      case Routes.HOME:
+        return 0;
+      case Routes.CALENDER:
+        return 1;
+      case Routes.HISTORY:
+        return 3;
+      case Routes.PROFILE:
+        return 3;
+      default:
+        return 0;
+    }
   }
 }
