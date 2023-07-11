@@ -121,7 +121,7 @@ class _BottomBarState extends State<BottomBar> {
       case Routes.HISTORY:
         return 3;
       case Routes.PROFILE:
-        return 3;
+        return 4;
       default:
         return 0;
     }
