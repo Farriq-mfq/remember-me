@@ -1,7 +1,9 @@
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:remember_me/app/routes/app_pages.dart';
+import 'package:remember_me/constant.dart';
 import 'package:remember_me/model/onboarding_model.dart';
 
 class TabbarComponents extends StatefulWidget {
@@ -31,11 +33,24 @@ class _TabbarComponentsState extends State<TabbarComponents>
     return listWidget;
   }
 
+  bool showBackButton = false;
+  final box = GetStorage();
   late TabController _tabController;
   @override
   void initState() {
     _tabController =
         new TabController(vsync: this, length: widget.listOnboardings.length);
+    _tabController.addListener(() {
+      if (_tabController.index > 0) {
+        setState(() {
+          showBackButton = true;
+        });
+      } else {
+        setState(() {
+          showBackButton = false;
+        });
+      }
+    });
     super.initState();
   }
 
@@ -49,7 +64,7 @@ class _TabbarComponentsState extends State<TabbarComponents>
     if ((_tabController.index + 1) < widget.listOnboardings.length) {
       _tabController.animateTo(_tabController.index + 1);
     } else {
-      Get.offAndToNamed(Routes.WELCOME);
+      _closeOnboarding();
     }
   }
 
@@ -57,6 +72,11 @@ class _TabbarComponentsState extends State<TabbarComponents>
     if ((_tabController.index + 1) > 1) {
       _tabController.animateTo(_tabController.index - 1);
     }
+  }
+
+  void _closeOnboarding() {
+    box.write(Constant.on_boarding_key, true);
+    Get.offAndToNamed(Routes.WELCOME);
   }
 
   @override
@@ -77,7 +97,7 @@ class _TabbarComponentsState extends State<TabbarComponents>
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            Get.offAndToNamed(Routes.WELCOME);
+                            _closeOnboarding();
                           },
                           child: Text("SKIP"),
                           style: ElevatedButton.styleFrom(
@@ -145,17 +165,19 @@ class _TabbarComponentsState extends State<TabbarComponents>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ElevatedButton(
-                          onPressed: prevOnbording,
-                          child: Text("BACK"),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              elevation: 0,
-                              splashFactory: NoSplash.splashFactory,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 20, horizontal: 40),
-                              shadowColor: Colors.transparent),
-                        ),
+                        showBackButton
+                            ? ElevatedButton(
+                                onPressed: prevOnbording,
+                                child: Text("BACK"),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    elevation: 0,
+                                    splashFactory: NoSplash.splashFactory,
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 20, horizontal: 40),
+                                    shadowColor: Colors.transparent),
+                              )
+                            : SizedBox(),
                         ElevatedButton(
                           onPressed: nextOnbording,
                           child: Text("NEXT"),

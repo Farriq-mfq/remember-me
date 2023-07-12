@@ -61,6 +61,7 @@ class LoginView extends GetView<LoginController> {
                     height: 15,
                   ),
                   TextField(
+                    controller: controller.email,
                     style: TextStyle(
                       color: Color(0xffFFFFFF),
                       fontSize: 16,
@@ -100,6 +101,7 @@ class LoginView extends GetView<LoginController> {
                     height: 15,
                   ),
                   TextField(
+                    controller: controller.password,
                     obscureText: true,
                     style: TextStyle(
                       color: Color(0xffFFFFFF),
@@ -128,7 +130,7 @@ class LoginView extends GetView<LoginController> {
               SizedBox(
                 width: Get.width,
                 child: ElevatedButton(
-                  onPressed: () => {},
+                  onPressed: () => {controller.loginAction()},
                   child: Text("Login"),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,

@@ -12,6 +12,7 @@ dependencies:
   heroicons:
   flutter_svg:
   table_calendar: 
+  get_storage:
   flutter:
     sdk: flutter
 

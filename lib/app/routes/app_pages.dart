@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:remember_me/app/middlewares/onboarding_middleware.dart';
 
 import '../modules/Calender/bindings/calender_binding.dart';
 import '../modules/Calender/views/calender_view.dart';
@@ -24,7 +25,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.ONBOARDING;
 
   static final routes = [
     GetPage(
@@ -34,11 +35,11 @@ class AppPages {
       transition: Transition.noTransition,
     ),
     GetPage(
-      name: _Paths.ONBOARDING,
-      page: () => const OnboardingView(),
-      binding: OnboardingBinding(),
-      transition: Transition.noTransition,
-    ),
+        name: _Paths.ONBOARDING,
+        page: () => const OnboardingView(),
+        binding: OnboardingBinding(),
+        transition: Transition.noTransition,
+        middlewares: [OnboardingMiddleware()]),
     GetPage(
       name: _Paths.WELCOME,
       page: () => const WelcomeView(),
