@@ -130,7 +130,9 @@ class LoginView extends GetView<LoginController> {
               SizedBox(
                 width: Get.width,
                 child: ElevatedButton(
-                  onPressed: () => {controller.loginAction()},
+                  onPressed: () => {
+                    Get.toNamed(Routes.HOME)
+                  },
                   child: Text("Login"),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
