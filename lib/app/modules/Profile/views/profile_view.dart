@@ -220,6 +220,9 @@ class ProfileView extends GetView<ProfileController> {
                     ),
                     ListTile(
                       contentPadding: const EdgeInsets.all(0),
+                      onTap: () async {
+                        await controller.signOut();
+                      },
                       title: Text(
                         "Log out",
                         style: TextStyle(

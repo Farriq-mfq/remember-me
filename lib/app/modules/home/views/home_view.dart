@@ -147,28 +147,26 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ],
               )
-            : Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: RefreshIndicator(
-                    onRefresh: () async {
-                      print('s');
-                    },
-                    child: ListView.separated(
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: ((context, index) {
-                        return CardList();
-                      }),
-                      separatorBuilder: (context, index) {
-                        return SizedBox(
-                          height: 10,
-                        );
-                      },
-                      itemCount: 10,
-                    ),
-                  ),
+            : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  print('s');
+                },
+                child: ListView.separated(
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: ((context, index) {
+                    return CardList();
+                  }),
+                  separatorBuilder: (context, index) {
+                    return SizedBox(
+                      height: 10,
+                    );
+                  },
+                  itemCount: 10,
                 ),
               ),
+            ),
       ),
     );
   }

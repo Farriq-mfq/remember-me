@@ -32,181 +32,207 @@ class LoginView extends GetView<LoginController> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(25),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Login",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Color(0xffFFFFFF),
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Email",
-                    style: TextStyle(
+          child: Obx(
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Login",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
                       color: Color(0xffFFFFFF),
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    controller: controller.email,
-                    style: TextStyle(
-                      color: Color(0xffFFFFFF),
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                    ),
-                    cursorColor: Color(0xffFFFFFF),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4),
-                        borderSide: const BorderSide(color: Color(0xff979797)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4),
-                        borderSide: const BorderSide(color: Color(0xffFFFFFF)),
-                      ),
-                      filled: true,
-                      fillColor: Color(0xff1D1D1D),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Password",
-                    style: TextStyle(
-                      color: Color(0xffFFFFFF),
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    controller: controller.password,
-                    obscureText: true,
-                    style: TextStyle(
-                      color: Color(0xffFFFFFF),
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                    ),
-                    cursorColor: Color(0xffFFFFFF),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4),
-                        borderSide: const BorderSide(color: Color(0xff979797)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4),
-                        borderSide: const BorderSide(color: Color(0xffFFFFFF)),
-                      ),
-                      filled: true,
-                      fillColor: Color(0xff1D1D1D),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              SizedBox(
-                width: Get.width,
-                child: ElevatedButton(
-                  onPressed: () => {controller.loginAction()},
-                  child: Text("Login"),
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    backgroundColor: Color(0xff8875FF),
-                    padding: const EdgeInsets.all(20),
-                  ),
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold),
                 ),
-              ),
-              SizedBox(
-                height: 35,
-              ),
-              Container(
-                width: Get.width,
-                alignment: Alignment.center,
-                child: Stack(
-                  alignment: Alignment.center,
+                SizedBox(
+                  height: 50,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      color: Color(0xff979797),
-                      height: 1,
-                    ),
-                    Positioned(
-                      child: Container(
-                        height: 30,
-                        width: 30,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        ),
-                        child: Text(
-                          "or",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xffFFFFFF),
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              GestureDetector(
-                onTap: (() {
-                  Get.toNamed(Routes.REGISTER);
-                }),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: RichText(
-                    text: TextSpan(
-                      text: "Don’t have an account? ",
+                    Text(
+                      "Email",
                       style: TextStyle(
-                        color: Color(0xff979797),
+                        color: Color(0xffFFFFFF),
                         fontSize: 16,
                         fontWeight: FontWeight.normal,
                       ),
-                      children: [
-                        TextSpan(
-                          text: "Register ",
-                          style: TextStyle(
-                            color: Color(0xffFFFFFF),
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        )
-                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextField(
+                      focusNode: controller.focusNode,
+                      readOnly: controller.loading.value,
+                      controller: controller.email,
+                      style: TextStyle(
+                        color: Color(0xffFFFFFF),
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      cursorColor: Color(0xffFFFFFF),
+                      decoration: InputDecoration(
+                        errorText:
+                            controller.validations.value.containsKey('email')
+                                ? controller.validations.value['email'][0]
+                                : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide:
+                              const BorderSide(color: Color(0xff979797)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide:
+                              const BorderSide(color: Color(0xffFFFFFF)),
+                        ),
+                        filled: true,
+                        fillColor: Color(0xff1D1D1D),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Password",
+                      style: TextStyle(
+                        color: Color(0xffFFFFFF),
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextField(
+                      readOnly: controller.loading.value,
+                      controller: controller.password,
+                      obscureText: true,
+                      style: TextStyle(
+                        color: Color(0xffFFFFFF),
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      cursorColor: Color(0xffFFFFFF),
+                      decoration: InputDecoration(
+                        errorText:
+                            controller.validations.value.containsKey('password')
+                                ? controller.validations.value['password'][0]
+                                : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide:
+                              const BorderSide(color: Color(0xff979797)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide:
+                              const BorderSide(color: Color(0xffFFFFFF)),
+                        ),
+                        filled: true,
+                        fillColor: Color(0xff1D1D1D),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                SizedBox(
+                  width: Get.width,
+                  child: ElevatedButton(
+                    onPressed: controller.loading.value
+                        ? null
+                        : () => {controller.loginAction()},
+                    child: Text(
+                      controller.loading.value ? "Loading..." : "Login",
+                      style: TextStyle(
+                        color: Color(0xffFFFFFF),
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      disabledBackgroundColor:
+                          Color.fromARGB(129, 135, 117, 255),
+                      elevation: 0,
+                      backgroundColor: Color(0xff8875FF),
+                      padding: const EdgeInsets.all(20),
                     ),
                   ),
                 ),
-              )
-            ],
+                SizedBox(
+                  height: 35,
+                ),
+                Container(
+                  width: Get.width,
+                  alignment: Alignment.center,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        color: Color(0xff979797),
+                        height: 1,
+                      ),
+                      Positioned(
+                        child: Container(
+                          height: 30,
+                          width: 30,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                          ),
+                          child: Text(
+                            "or",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xffFFFFFF),
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                GestureDetector(
+                  onTap: (() {
+                    Get.toNamed(Routes.REGISTER);
+                  }),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: RichText(
+                      text: TextSpan(
+                        text: "Don’t have an account? ",
+                        style: TextStyle(
+                          color: Color(0xff979797),
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "Register ",
+                            style: TextStyle(
+                              color: Color(0xffFFFFFF),
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

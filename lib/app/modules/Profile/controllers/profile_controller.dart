@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
+import 'package:remember_me/app/data/auth_provider.dart';
+import 'package:remember_me/app/routes/app_pages.dart';
 
 class ProfileController extends GetxController {
-  //TODO: Implement ProfileController
+  final AuthProvider _authProvider = AuthProvider();
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -19,5 +20,10 @@ class ProfileController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  Future<void> signOut() async {
+    final res = await _authProvider.logout();
+    if (res.isOk) {
+      Get.offAllNamed(Routes.LOGIN);
+    }
+  }
 }
