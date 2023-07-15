@@ -56,7 +56,7 @@ class AppPages {
       page: () => const LoginView(),
       binding: LoginBinding(),
       transition: Transition.noTransition,
-      // middlewares: [GuestMiddleware()],
+      middlewares: [GuestMiddleware()],
     ),
     GetPage(
       name: _Paths.REGISTER,
@@ -83,10 +83,12 @@ class AppPages {
       transition: Transition.noTransition,
     ),
     GetPage(
-      name: _Paths.PROFILE,
-      page: () => const ProfileView(),
-      binding: ProfileBinding(),
-      transition: Transition.noTransition,
-    ),
+        name: _Paths.PROFILE,
+        page: () => const ProfileView(),
+        binding: ProfileBinding(),
+        transition: Transition.noTransition,
+        middlewares: [
+          AuthMiddleware(),
+        ]),
   ];
 }

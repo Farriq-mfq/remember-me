@@ -130,7 +130,7 @@ class HomeView extends GetView<HomeController> {
         child: empty
             ? Column(
                 children: [
-                  SizedBox(
+                  SizedBox( 
                     height: 50,
                   ),
                   Image.asset("assets/index_empty.png"),

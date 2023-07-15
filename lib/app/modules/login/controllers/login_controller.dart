@@ -14,16 +14,19 @@ import 'package:remember_me/model/login_response.dart';
 class LoginController extends GetxController with StateMixin<dynamic> {
   final AuthProvider _authProvider = AuthProvider();
 
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+  late TextEditingController email;
+  late TextEditingController password;
   final box = GetStorage();
-  FocusNode focusNode = FocusNode();
+  late FocusNode focusNode;
 
   Rx<bool> loading = false.obs;
   Rx<Map<String, dynamic>> validations = Rx<Map<String, dynamic>>({});
 
   @override
   void onInit() {
+    email = TextEditingController();
+    password = TextEditingController();
+    focusNode = FocusNode();
     super.onInit();
   }
 
@@ -39,6 +42,8 @@ class LoginController extends GetxController with StateMixin<dynamic> {
 
   @override
   void dispose() {
+    email.dispose();
+    password.dispose();
     focusNode.dispose();
     super.dispose();
   }
@@ -47,61 +52,68 @@ class LoginController extends GetxController with StateMixin<dynamic> {
     validations.value = validation_val;
   }
 
-  void loginAction() async {
+  void loginAction() {
     loading.value = true;
-    try {
-      final LoginInput credentials =
-          LoginInput(email: email.text, password: password.text);
-      final res = await _authProvider.login(credentials);
-      if (res.statusCode == 200) {
-        LoginResponse successResponse = LoginResponse.fromJson(res.body);
-        await box.write(Constant.token_key, successResponse.token);
-        await box.write(Constant.auth_state_key, successResponse.authState);
-        loading.value = false;
-        Future.delayed(
-          Duration(milliseconds: 500),
-          () {
-            Get.offAndToNamed(Routes.HOME);
-          },
-        );
-      } else {
-        switch (res.statusCode) {
-          case 400:
-            Map<String, dynamic> responseBodyError400 = res.body;
-            if (responseBodyError400.containsKey('validations')) {
-              setValidations(responseBodyError400['validations']);
-            }
-            break;
-          case 401:
-            setValidations({});
-            break;
-          case 500:
-            setValidations({});
-            break;
-          default:
-            setValidations({});
-            break;
-        }
-        loading.value = false;
-        focusNode.requestFocus();
+    setValidations({});
+    final LoginInput credentials =
+        LoginInput(email: email.text, password: password.text);
+    _authProvider.login(credentials).then((res) {
+      switch (res.statusCode) {
+        case 200:
+          LoginResponse successResponse = LoginResponse.fromJson(res.body);
+          box.write(Constant.token_key, successResponse.token);
+          box.write(Constant.auth_state_key, successResponse.authState);
+          loading.value = false;
+          Get.offAndToNamed(Routes.HOME);
+          break;
+        case 400:
+          Map<String, dynamic> responseBodyError400 = res.body;
+          if (responseBodyError400.containsKey('validations')) {
+            setValidations(responseBodyError400['validations']);
+          }
+          break;
+        case 401:
+          Get.snackbar("Error", "Invalid Email dan password",
+              icon: HeroIcon(
+                HeroIcons.xMark,
+                color: Colors.white,
+              ),
+              backgroundColor: Colors.red,
+              margin: const EdgeInsets.all(20),
+              colorText: Colors.white);
+          break;
+        case 500:
+          Get.snackbar("Error", "Terjadi Kesalahan",
+              icon: HeroIcon(
+                HeroIcons.xMark,
+                color: Colors.white,
+              ),
+              backgroundColor: Colors.red,
+              margin: const EdgeInsets.all(20),
+              colorText: Colors.white);
+          break;
+        default:
+          Get.snackbar("Error", "Terjadi Kesalahan",
+              icon: HeroIcon(
+                HeroIcons.xMark,
+                color: Colors.white,
+              ),
+              backgroundColor: Colors.red,
+              margin: const EdgeInsets.all(20),
+              colorText: Colors.white);
+          break;
       }
-    } catch (e) {
-      print(e);
+    }).catchError((onError) {
+      print(onError);
+    }).whenComplete(() {
       loading.value = false;
       focusNode.requestFocus();
-    }
+    });
   }
 
-  void _authSnackbar(String message) {
-    Get.snackbar("sg", message,
-        margin: const EdgeInsets.all(30),
-        backgroundColor: Colors.red,
-        icon: HeroIcon(
-          HeroIcons.xMark,
-          color: Color(0xffFFFFFF),
-        ),
-        isDismissible: true,
-        borderColor: Colors.transparent,
-        colorText: Color(0xffFFFFFF));
-  }
+  // void reset() {
+  //   email.clear();
+  //   password.clear();
+  //   confirm_password.clear();
+  // }
 }
