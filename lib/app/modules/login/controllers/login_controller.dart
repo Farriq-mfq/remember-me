@@ -9,6 +9,7 @@ import 'package:remember_me/app/data/auth_provider.dart';
 import 'package:remember_me/app/routes/app_pages.dart';
 import 'package:remember_me/constant.dart';
 import 'package:remember_me/model/input/login_input.dart';
+import 'package:remember_me/model/login_response.dart';
 
 class LoginController extends GetxController with StateMixin<dynamic> {
   final AuthProvider _authProvider = AuthProvider();
@@ -59,9 +60,10 @@ class LoginController extends GetxController with StateMixin<dynamic> {
     _authProvider.login(credentials).then((res) {
       switch (res.statusCode) {
         case 200:
-          print(res.body);
-          box.write(Constant.token_key, res.body['token']);
-          box.write(Constant.auth_state_key, res.body['authState']);
+        print(res.body);
+          LoginResponse successResponse = LoginResponse.fromJson(res.body);
+          box.write(Constant.token_key, successResponse.token);
+          box.write(Constant.auth_state_key, successResponse.authState);
           loading.value = false;
           Get.offAndToNamed(Routes.HOME);
           break;
