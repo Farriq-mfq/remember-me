@@ -48,25 +48,26 @@ class HistoryView extends GetView<HistoryController> {
                 ],
               )
             : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  print('s');
-                },
-                child: ListView.separated(
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: ((context, index) {
-                    return CardList();
-                  }),
-                  separatorBuilder: (context, index) {
-                    return SizedBox(
-                      height: 10,
-                    );
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    print('s');
                   },
-                  itemCount: 10,
+                  child: ListView.separated(
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: ((context, index) {
+                      // return CardList();
+                      return Text("dsf");
+                    }),
+                    separatorBuilder: (context, index) {
+                      return SizedBox(
+                        height: 10,
+                      );
+                    },
+                    itemCount: 10,
+                  ),
                 ),
               ),
-            ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:remember_me/app/data/auth_provider.dart';
 import 'package:remember_me/app/routes/app_pages.dart';
 import 'package:remember_me/model/input/register_input.dart';
@@ -72,7 +73,6 @@ class RegisterController extends GetxController {
               if (responseBodyError400.containsKey('validations')) {
                 setValidations(responseBodyError400['validations']);
               }
-              print(validations.value);
               break;
             case 500:
               break;
@@ -80,7 +80,17 @@ class RegisterController extends GetxController {
               break;
           }
         }).catchError((onError) {
-          print(onError);
+          Get.snackbar(
+            "Error",
+            "Terjadi Kesalahan",
+            icon: HeroIcon(
+              HeroIcons.xMark,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.red,
+            margin: const EdgeInsets.all(20),
+            colorText: Colors.white,
+          );
         }).whenComplete(() => {loading.value = false});
       },
     );

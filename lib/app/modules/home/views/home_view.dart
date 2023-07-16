@@ -7,6 +7,7 @@ import 'package:remember_me/app/components/add_task.dart';
 import 'package:remember_me/app/components/bottom_navigation_bar.dart';
 import 'package:remember_me/app/components/card_list.dart';
 import 'package:remember_me/app/components/floating_button.dart';
+import 'package:remember_me/model/todo_response.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -125,49 +126,56 @@ class HomeView extends GetView<HomeController> {
       bottomNavigationBar: BottomBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingBtn(),
-      body: Container(
-        width: Get.width,
-        child: empty
-            ? Column(
-                children: [
-                  SizedBox( 
-                    height: 50,
+      body: controller.obx(
+          (state) => Container(
+                width: Get.width,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      print('s');
+                    },
+                    child: ListView.separated(
+                      controller: controller.scrollController,
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: ((context, index) {
+                        print(state.data[index]);
+                        return CardList(
+                          todo: state.data[index],
+                        );
+                      }),
+                      separatorBuilder: (context, index) {
+                        return SizedBox(
+                          height: 10,
+                        );
+                      },
+                      itemCount: state!.data.length,
+                    ),
                   ),
-                  Image.asset("assets/index_empty.png"),
-                  Text(
-                    "What do you want to do today?",
-                    style: TextStyle(color: Color(0xffFFFFFF), fontSize: 20),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "Tap + to add your tasks",
-                    style: TextStyle(color: Color(0xffFFFFFF), fontSize: 16),
-                  ),
-                ],
-              )
-            : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  print('s');
-                },
-                child: ListView.separated(
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: ((context, index) {
-                    return CardList();
-                  }),
-                  separatorBuilder: (context, index) {
-                    return SizedBox(
-                      height: 10,
-                    );
-                  },
-                  itemCount: 10,
                 ),
               ),
+          onEmpty: Container(
+            width: Get.width,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 50,
+                ),
+                Image.asset("assets/index_empty.png"),
+                Text(
+                  "What do you want to do today?",
+                  style: TextStyle(color: Color(0xffFFFFFF), fontSize: 20),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Tap + to add your tasks",
+                  style: TextStyle(color: Color(0xffFFFFFF), fontSize: 16),
+                ),
+              ],
             ),
-      ),
+          )),
     );
   }
 }

@@ -19,17 +19,8 @@ class ApiProvider extends GetConnect {
             await box.remove(Constant.auth_state_key);
           }
         }
-      } else {
-        print("AUTH PAGE");
       }
       return response;
     });
-
-    if (token_key != null) {
-      httpClient.addRequestModifier<dynamic>((request) {
-        request.headers['Authorization'] = "Bearer ${token_key}";
-        return request;
-      });
-    }
   }
 }

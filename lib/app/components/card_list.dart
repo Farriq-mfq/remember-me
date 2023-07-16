@@ -1,8 +1,10 @@
 import "package:flutter/material.dart";
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:remember_me/model/todo_response.dart';
 
 class CardList extends StatefulWidget {
-  const CardList({super.key});
+  const CardList({super.key, required this.todo});
+  final Datum todo;
 
   @override
   State<CardList> createState() => _CardListState();
@@ -31,7 +33,7 @@ class _CardListState extends State<CardList> {
       child: ListTile(
         contentPadding: const EdgeInsets.all(12),
         title: Text(
-          "Do Math Homework",
+          widget.todo.title,
           style: TextStyle(color: Color(0xffFFFFFF), fontSize: 16),
           maxLines: 1,
         ),
@@ -52,12 +54,15 @@ class _CardListState extends State<CardList> {
               ),
               child: Row(
                 children: [
-                  SvgPicture.asset("assets/icons/flag.svg",color: Color(0xffFFFFFF),),
+                  SvgPicture.asset(
+                    "assets/icons/flag.svg",
+                    color: Color(0xffFFFFFF),
+                  ),
                   SizedBox(
                     width: 3,
                   ),
                   Text(
-                    "University",
+                    widget.todo.category.categoryName,
                     style: TextStyle(color: Color(0xffFFFFFF), fontSize: 12),
                   ),
                 ],

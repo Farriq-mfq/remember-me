@@ -39,7 +39,8 @@ class CalenderView extends GetView<CalenderController> {
                 child: ListView.separated(
                   physics: BouncingScrollPhysics(),
                   itemBuilder: ((context, index) {
-                    return const CardList();
+                    // return const CardList();
+                    return Text("sd");
                   }),
                   separatorBuilder: (context, index) {
                     return SizedBox(

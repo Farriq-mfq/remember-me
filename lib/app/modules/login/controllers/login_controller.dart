@@ -24,10 +24,10 @@ class LoginController extends GetxController with StateMixin<dynamic> {
 
   @override
   void onInit() {
+    super.onInit();
     email = TextEditingController();
     password = TextEditingController();
     focusNode = FocusNode();
-    super.onInit();
   }
 
   @override
@@ -60,11 +60,10 @@ class LoginController extends GetxController with StateMixin<dynamic> {
     _authProvider.login(credentials).then((res) {
       switch (res.statusCode) {
         case 200:
-        print(res.body);
           LoginResponse successResponse = LoginResponse.fromJson(res.body);
           box.write(Constant.token_key, successResponse.token);
           box.write(Constant.auth_state_key, successResponse.authState);
-          loading.value = false;
+          reset();
           Get.offAndToNamed(Routes.HOME);
           break;
         case 400:
@@ -105,16 +104,25 @@ class LoginController extends GetxController with StateMixin<dynamic> {
           break;
       }
     }).catchError((onError) {
-      print(onError);
+      Get.snackbar(
+        "Error",
+        "Terjadi Kesalahan",
+        icon: HeroIcon(
+          HeroIcons.xMark,
+          color: Colors.white,
+        ),
+        backgroundColor: Colors.red,
+        margin: const EdgeInsets.all(20),
+        colorText: Colors.white,
+      );
     }).whenComplete(() {
       loading.value = false;
       focusNode.requestFocus();
     });
   }
 
-  // void reset() {
-  //   email.clear();
-  //   password.clear();
-  //   confirm_password.clear();
-  // }
+  void reset() {
+    email.clear();
+    password.clear();
+  }
 }
