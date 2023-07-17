@@ -13,6 +13,7 @@ dependencies:
   flutter_svg:
   table_calendar: 
   get_storage:
+  flutter_colorpicker:
   flutter:
     sdk: flutter
 

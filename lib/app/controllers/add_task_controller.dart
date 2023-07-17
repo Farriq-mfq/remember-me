@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:remember_me/app/controllers/todo_controller.dart';
 import 'package:remember_me/app/data/category_provider.dart';
 import 'package:remember_me/app/data/todo_provider.dart';
 import 'package:remember_me/app/routes/app_pages.dart';
@@ -14,6 +15,7 @@ class AddTaskController extends GetxController
     with StateMixin<List<CategoryResponse>> {
   final TodoProvider _todoProvider = TodoProvider();
   final CategoryProvider _categoryProvider = CategoryProvider();
+  final todo_controller = Get.put(TodoController());
 
   // editing
   late TextEditingController title;
@@ -69,6 +71,7 @@ class AddTaskController extends GetxController
               backgroundColor: Colors.green, margin: const EdgeInsets.all(20));
           reset();
           focusNode.requestFocus();
+          todo_controller.fetchTask();
           break;
         case 400:
           Map<String, dynamic> responseBodyError400 = response.body;
@@ -101,7 +104,6 @@ class AddTaskController extends GetxController
   }
 
   void selectedCategory(dynamic category) {
-    print(category);
     selected_category.value = category;
   }
 
@@ -117,7 +119,11 @@ class AddTaskController extends GetxController
               .map<CategoryResponse>(
                   (category) => CategoryResponse.fromJson(category))
               .toList();
-          change(categories, status: RxStatus.success());
+          if (categories.length > 0) {
+            change(categories, status: RxStatus.success());
+          } else {
+            change([], status: RxStatus.empty());
+          }
           break;
         case 401:
           box.remove(Constant.token_key);

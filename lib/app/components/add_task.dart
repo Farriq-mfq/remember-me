@@ -133,21 +133,29 @@ class AddTask extends StatelessWidget {
                                             children: [
                                               Expanded(
                                                 child: ElevatedButton(
-                                                  style: ElevatedButton.styleFrom(
-                                                      backgroundColor:
-                                                          Color(convert_to_hex)),
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    elevation: 0,
+                                                    backgroundColor:
+                                                        Color(convert_to_hex)
+                                                            .withAlpha(120),
+                                                  ),
                                                   onPressed: () {
                                                     add_task_controller
                                                         .selectedCategory(
                                                             state[index]);
                                                     Get.back();
                                                   },
-                                                  child: state[index].icon != null
-                                                      ? SvgPicture.network(
-                                                          state[index]
-                                                              .icon
-                                                              .iconUrl)
-                                                      : SizedBox(),
+                                                  child:
+                                                      state[index].icon != null
+                                                          ? SvgPicture.network(
+                                                              state[index]
+                                                                  .icon
+                                                                  .iconUrl,
+                                                              color: Color(
+                                                                  convert_to_hex),
+                                                            )
+                                                          : SizedBox(),
                                                 ),
                                               ),
                                               SizedBox(
@@ -165,6 +173,11 @@ class AddTask extends StatelessWidget {
                                     ),
                                     onLoading: CircularProgressIndicator(
                                       color: Color(0xff8687E7),
+                                    ),
+                                    onEmpty: Text(
+                                      "Category Empty",
+                                      style:
+                                          TextStyle(color: Color(0xffFFFFFF)),
                                     ),
                                     onError: (error) => Text(
                                         "Terjadi Kesalahan Saat Load Category"),
@@ -184,16 +197,19 @@ class AddTask extends StatelessWidget {
                                   ),
                                 );
                               },
-                        icon: add_task_controller.selected_category.value.id != 0
-                            ? SvgPicture.network(
-                                add_task_controller
-                                    .selected_category.value.icon.iconUrl,
-                                color: Color(
-                                  int.parse(add_task_controller
-                                      .selected_category.value.categoryColor),
-                                ),
-                              )
-                            : SvgPicture.asset('assets/icons/tag.svg'),
+                        icon:
+                            add_task_controller.selected_category.value.id != 0
+                                ? SvgPicture.network(
+                                    add_task_controller
+                                        .selected_category.value.icon.iconUrl,
+                                    color: Color(
+                                      int.parse(add_task_controller
+                                          .selected_category
+                                          .value
+                                          .categoryColor),
+                                    ),
+                                  )
+                                : SvgPicture.asset('assets/icons/tag.svg'),
                         tooltip: "Category",
                       ),
                     ),

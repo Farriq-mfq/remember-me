@@ -4,7 +4,7 @@ import 'package:remember_me/model/todo_response.dart';
 
 class CardList extends StatefulWidget {
   const CardList({super.key, required this.todo});
-  final Datum todo;
+  final TodoResponse todo;
 
   @override
   State<CardList> createState() => _CardListState();
@@ -49,14 +49,14 @@ class _CardListState extends State<CardList> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Color(0xff809CFF),
+                color: Color(int.parse(widget.todo.category.categoryColor)).withAlpha(100),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
                 children: [
-                  SvgPicture.asset(
-                    "assets/icons/flag.svg",
-                    color: Color(0xffFFFFFF),
+                  SvgPicture.network(
+                    widget.todo.category.icon.iconUrl,
+                    color: Color(int.parse(widget.todo.category.categoryColor)),
                   ),
                   SizedBox(
                     width: 3,
