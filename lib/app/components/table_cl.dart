@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
+import 'package:remember_me/app/controllers/todo_controller.dart';
 import 'package:remember_me/utils.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -12,9 +14,11 @@ class TableCl extends StatefulWidget {
 }
 
 class _TableClState extends State<TableCl> {
+  TodoController todo_controller = Get.put(TodoController());
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+  DateTime _focusedDay = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
@@ -23,8 +27,7 @@ class _TableClState extends State<TableCl> {
         formatButtonTextStyle: TextStyle(color: Colors.white),
       ),
       calendarStyle: CalendarStyle(
-        defaultTextStyle: TextStyle(color: Colors.white,fontSize: 12),
-        
+        defaultTextStyle: TextStyle(color: Colors.white, fontSize: 12),
       ),
       firstDay: kFirstDay,
       lastDay: kLastDay,
@@ -39,6 +42,7 @@ class _TableClState extends State<TableCl> {
             _selectedDay = selectedDay;
             _focusedDay = focusedDay;
           });
+          todo_controller.searchTaskBydate(selectedDay);
         }
       },
       onFormatChanged: (format) {
@@ -49,7 +53,6 @@ class _TableClState extends State<TableCl> {
         }
       },
       onPageChanged: (focusedDay) {
-        // No need to call `setState()` herex
         _focusedDay = focusedDay;
       },
     );

@@ -293,7 +293,14 @@ class CategoryView extends GetView<CategoryController> {
                                       ),
                                       actions: [
                                         ElevatedButton(
-                                          child: const Text('Got it'),
+                                          child: const Text('Select'),
+                                          style: ElevatedButton.styleFrom(
+                                            disabledBackgroundColor:
+                                                Color.fromARGB(
+                                                    129, 135, 117, 255),
+                                            elevation: 0,
+                                            backgroundColor: Color(0xff8875FF),
+                                          ),
                                           onPressed: () {
                                             if (controller
                                                 .colorState.value.isNotEmpty) {

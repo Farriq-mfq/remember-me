@@ -27,7 +27,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.LOGIN;
+  static const INITIAL = Routes.ONBOARDING;
 
   static final routes = [
     GetPage(
@@ -46,24 +46,30 @@ class AppPages {
         transition: Transition.noTransition,
         middlewares: [OnboardingMiddleware()]),
     GetPage(
-      name: _Paths.WELCOME,
-      page: () => const WelcomeView(),
-      binding: WelcomeBinding(),
-      transition: Transition.noTransition,
-    ),
+        name: _Paths.WELCOME,
+        page: () => const WelcomeView(),
+        binding: WelcomeBinding(),
+        transition: Transition.noTransition,
+        middlewares: [
+          GuestMiddleware(),
+        ]),
     GetPage(
       name: _Paths.LOGIN,
       page: () => const LoginView(),
       binding: LoginBinding(),
       transition: Transition.noTransition,
-      middlewares: [GuestMiddleware()],
+      middlewares: [
+        GuestMiddleware(),
+      ],
     ),
     GetPage(
-      name: _Paths.REGISTER,
-      page: () => const RegisterView(),
-      binding: RegisterBinding(),
-      transition: Transition.noTransition,
-    ),
+        name: _Paths.REGISTER,
+        page: () => const RegisterView(),
+        binding: RegisterBinding(),
+        transition: Transition.noTransition,
+        middlewares: [
+          GuestMiddleware(),
+        ]),
     GetPage(
       name: _Paths.CATEGORY,
       page: () => const CategoryView(),

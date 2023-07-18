@@ -1,18 +1,21 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:remember_me/app/controllers/add_task_controller.dart';
+import 'package:remember_me/app/controllers/todo_controller.dart';
 import 'package:remember_me/app/routes/app_pages.dart';
 import 'package:remember_me/model/category_response.dart';
+import 'package:remember_me/model/todo_response.dart';
 
-class AddTask extends StatelessWidget {
-  const AddTask({super.key});
-
+class DetailTask extends StatelessWidget {
+  DetailTask({super.key, required this.todo});
+  TodoResponse todo;
   @override
   Widget build(BuildContext context) {
     final add_task_controller = Get.put(AddTaskController());
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      add_task_controller.reset();
+      add_task_controller.initEdit(todo);
     });
     return Container(
       height: 300,
@@ -24,7 +27,7 @@ class AddTask extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Add Task",
+                  "Detail Task",
                   style: TextStyle(
                     color: Color(0xffFFFFFF),
                     fontSize: 20,
@@ -101,6 +104,71 @@ class AddTask extends StatelessWidget {
               children: [
                 Row(
                   children: [
+                    Obx(
+                      () => IconButton(
+                        onPressed: add_task_controller.loading.value
+                            ? null
+                            : () {
+                                Get.defaultDialog(
+                                    title: "Are you sure ?",
+                                    titleStyle: TextStyle(
+                                        color: Color(0xffFFFFFF), fontSize: 16),
+                                    backgroundColor: Color(0xff363636),
+                                    contentPadding: const EdgeInsets.all(15),
+                                    content: Text(
+                                      "Press Ok if you want to delete this task",
+                                      style: TextStyle(
+                                          color: Color(0xffFFFFFF),
+                                          fontSize: 16),
+                                    ),
+                                    confirm: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: (() => {Get.back()}),
+                                          child: Text("Cencel"),
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 0,
+                                              backgroundColor: Colors.red),
+                                        ),
+                                        SizedBox(
+                                          width: 30,
+                                        ),
+                                        ElevatedButton(
+                                            onPressed: (() => {
+                                                  add_task_controller
+                                                      .delete_task(
+                                                          todo.id.toString()),
+                                                  Get.offAndToNamed(
+                                                      Get.currentRoute)
+                                                }),
+                                            child: Text("Yes"),
+                                            style: ElevatedButton.styleFrom(
+                                              disabledBackgroundColor:
+                                                  Color.fromARGB(
+                                                      129, 135, 117, 255),
+                                              backgroundColor:
+                                                  Color(0xff8875FF),
+                                              elevation: 0,
+                                              splashFactory:
+                                                  NoSplash.splashFactory,
+                                              shadowColor: Colors.transparent,
+                                            )),
+                                      ],
+                                    ));
+                              },
+                        icon: add_task_controller.loading.value
+                            ? const CircularProgressIndicator(
+                                color: Colors.red,
+                              )
+                            : HeroIcon(
+                                HeroIcons.trash,
+                                color: Colors.red,
+                              ),
+                        tooltip: "Delete",
+                      ),
+                    ),
                     Obx(
                       () => IconButton(
                         onPressed: add_task_controller.loading.value
@@ -220,17 +288,21 @@ class AddTask extends StatelessWidget {
                 ),
                 Obx(
                   () => IconButton(
+                    tooltip: "Update",
                     onPressed: add_task_controller.loading.value
                         ? null
                         : () {
-                            add_task_controller.add_task();
+                            add_task_controller.update_task(todo.id.toString());
                             Get.back();
                           },
                     icon: add_task_controller.loading.value
                         ? const CircularProgressIndicator(
                             color: Color(0xff8687E7),
                           )
-                        : SvgPicture.asset('assets/icons/send.svg'),
+                        : HeroIcon(
+                            HeroIcons.pencilSquare,
+                            color: Color(0xff8687E7),
+                          ),
                   ),
                 ),
               ],

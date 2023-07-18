@@ -8,6 +8,7 @@ String todoResponseToJson(TodoResponse data) => json.encode(data.toJson());
 class TodoResponse {
     int id;
     String title;
+    String content;
     int pinned;
     DateTime createdAt;
     Category category;
@@ -15,6 +16,7 @@ class TodoResponse {
     TodoResponse({
         required this.id,
         required this.title,
+        required this.content,
         required this.pinned,
         required this.createdAt,
         required this.category,
@@ -23,6 +25,7 @@ class TodoResponse {
     factory TodoResponse.fromJson(Map<String, dynamic> json) => TodoResponse(
         id: json["id"],
         title: json["title"],
+        content: json["content"],
         pinned: json["pinned"],
         createdAt: DateTime.parse(json["created_at"]),
         category: Category.fromJson(json["category"]),
@@ -31,6 +34,7 @@ class TodoResponse {
     Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
+        "content": content,
         "pinned": pinned,
         "created_at": createdAt.toIso8601String(),
         "category": category.toJson(),

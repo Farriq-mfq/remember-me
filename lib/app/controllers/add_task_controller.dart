@@ -10,6 +10,7 @@ import 'package:remember_me/app/routes/app_pages.dart';
 import 'package:remember_me/constant.dart';
 import 'package:remember_me/model/category_response.dart';
 import 'package:remember_me/model/input/todo_input.dart';
+import 'package:remember_me/model/todo_response.dart';
 
 class AddTaskController extends GetxController
     with StateMixin<List<CategoryResponse>> {
@@ -23,9 +24,9 @@ class AddTaskController extends GetxController
   late FocusNode focusNode;
   // stete
   Rx<bool> loading = false.obs;
-  Rx<CategoryResponse> selected_category = CategoryResponse(
-          id: 0, categoryName: "", categoryColor: "categoryColor", icon: null)
-      .obs;
+  Rx<CategoryResponse> selected_category =
+      CategoryResponse(id: 0, categoryName: "", categoryColor: "", icon: null)
+          .obs;
   // local storage
   final box = GetStorage();
   Rx<Map<String, dynamic>> validations = Rx<Map<String, dynamic>>({});
@@ -56,6 +57,18 @@ class AddTaskController extends GetxController
     super.dispose();
   }
 
+  void initEdit(TodoResponse todo) {
+    title.text = todo.title;
+    content.text = todo.content;
+    CategoryResponse category = CategoryResponse(
+        id: todo.category.id,
+        categoryName: todo.category.categoryName,
+        categoryColor: todo.category.categoryColor,
+        icon: todo.category.icon);
+
+    selectedCategory(category);
+  }
+
   void add_task() {
     loading.value = true;
     setValidations({});
@@ -71,13 +84,94 @@ class AddTaskController extends GetxController
               backgroundColor: Colors.green, margin: const EdgeInsets.all(20));
           reset();
           focusNode.requestFocus();
-          todo_controller.fetchTask();
+          todo_controller.fetchTask(todo_controller.selectedTab.value);
+
           break;
         case 400:
           Map<String, dynamic> responseBodyError400 = response.body;
           if (responseBodyError400.containsKey('validations')) {
             setValidations(responseBodyError400['validations']);
           }
+          break;
+        case 401:
+          box.remove(Constant.token_key);
+          box.remove(Constant.auth_state_key);
+          Get.offAndToNamed(Routes.LOGIN);
+          break;
+        default:
+      }
+    }).catchError((onError) {
+      Get.snackbar(
+        "Error",
+        "Terjadi Kesalahan",
+        icon: HeroIcon(
+          HeroIcons.xMark,
+          color: Colors.white,
+        ),
+        backgroundColor: Colors.red,
+        margin: const EdgeInsets.all(20),
+        colorText: Colors.white,
+      );
+    }).whenComplete(
+      () => {loading.value = false},
+    );
+  }
+
+  void update_task(String id) {
+    loading.value = true;
+    setValidations({});
+    TodoInput todoInput = TodoInput(
+      title: title.text,
+      content: content.text,
+      idCategory: selected_category.value.id,
+    );
+    _todoProvider.updateTodo(todoInput, id).then((response) {
+      switch (response.statusCode) {
+        case 200:
+          Get.snackbar("Success", "Berhasil update task",
+              backgroundColor: Colors.green, margin: const EdgeInsets.all(20));
+          reset();
+          focusNode.requestFocus();
+          todo_controller.fetchTask(todo_controller.selectedTab.value);
+          break;
+        case 400:
+          Map<String, dynamic> responseBodyError400 = response.body;
+          if (responseBodyError400.containsKey('validations')) {
+            setValidations(responseBodyError400['validations']);
+          }
+          break;
+        case 401:
+          box.remove(Constant.token_key);
+          box.remove(Constant.auth_state_key);
+          Get.offAndToNamed(Routes.LOGIN);
+          break;
+        default:
+      }
+    }).catchError((onError) {
+      Get.snackbar(
+        "Error",
+        "Terjadi Kesalahan",
+        icon: HeroIcon(
+          HeroIcons.xMark,
+          color: Colors.white,
+        ),
+        backgroundColor: Colors.red,
+        margin: const EdgeInsets.all(20),
+        colorText: Colors.white,
+      );
+    }).whenComplete(
+      () => {loading.value = false},
+    );
+  }
+
+  void delete_task(String id) {
+    loading.value = true;
+    _todoProvider.deleteTodo(id).then((response) {
+      switch (response.statusCode) {
+        case 200:
+          Get.snackbar("Success", "Berhasil hapus task",
+              backgroundColor: Colors.green, margin: const EdgeInsets.all(20));
+          todo_controller.fetchTask(todo_controller.selectedTab.value);
           break;
         case 401:
           box.remove(Constant.token_key);
@@ -149,8 +243,8 @@ class AddTaskController extends GetxController
   }
 
   void reset() {
-    title.clear();
-    content.clear();
+    title.text = "";
+    content.text = "";
     selected_category.value = CategoryResponse(
         id: 0, categoryName: "", categoryColor: "categoryColor", icon: null);
     setValidations({});

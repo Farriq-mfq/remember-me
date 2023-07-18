@@ -3,8 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:remember_me/app/components/bottom_navigation_bar.dart';
 import 'package:remember_me/app/components/floating_button.dart';
+import 'package:remember_me/constant.dart';
+import 'package:remember_me/model/login_response.dart';
 
 import '../controllers/profile_controller.dart';
 
@@ -12,6 +15,7 @@ class ProfileView extends GetView<ProfileController> {
   const ProfileView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final box = GetStorage();
     return Scaffold(
       bottomNavigationBar: BottomBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -36,12 +40,14 @@ class ProfileView extends GetView<ProfileController> {
                 children: [
                   CircleAvatar(
                     maxRadius: 50,
+                    backgroundImage: NetworkImage(
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAyA1O4AFMSucEYLCBcbftnzm33d64O7_HK-xhJkfo8OWWZ6czTYqYI3R9mT1QGAYBrxI&usqp=CAU"),
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   Text(
-                    "Farriq Muwaffaq",
+                    box.read<AuthState>(Constant.auth_state_key)!.name,
                     style: TextStyle(
                         color: Color(0xffFFFFFF),
                         fontSize: 20,
@@ -49,45 +55,6 @@ class ProfileView extends GetView<ProfileController> {
                     textAlign: TextAlign.center,
                   )
                 ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 25),
-                      decoration: BoxDecoration(
-                          color: Color(0xff363636),
-                          borderRadius: BorderRadius.circular(4)),
-                      child: Text(
-                        "10 Task left",
-                        style: TextStyle(
-                          color: Color(0xffFFFFFF),
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 25),
-                      decoration: BoxDecoration(
-                          color: Color(0xff363636),
-                          borderRadius: BorderRadius.circular(4)),
-                      child: Text(
-                        "5 Task done",
-                        style: TextStyle(
-                          color: Color(0xffFFFFFF),
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ),
               SizedBox(
                 height: 20,
