@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:remember_me/app/components/bottom_navigation_bar.dart';
 import 'package:remember_me/app/components/floating_button.dart';
 import 'package:remember_me/constant.dart';
-import 'package:remember_me/model/login_response.dart';
+import 'package:sp_util/sp_util.dart';
 
 import '../controllers/profile_controller.dart';
 
@@ -15,7 +13,6 @@ class ProfileView extends GetView<ProfileController> {
   const ProfileView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final box = GetStorage();
     return Scaffold(
       bottomNavigationBar: BottomBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -47,7 +44,7 @@ class ProfileView extends GetView<ProfileController> {
                     height: 15,
                   ),
                   Text(
-                    box.read<AuthState>(Constant.auth_state_key)!.name,
+                    SpUtil.getObject(Constant.auth_state_key)!['name'],
                     style: TextStyle(
                         color: Color(0xffFFFFFF),
                         fontSize: 20,

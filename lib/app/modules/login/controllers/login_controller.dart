@@ -3,20 +3,19 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:remember_me/app/data/auth_provider.dart';
 import 'package:remember_me/app/routes/app_pages.dart';
 import 'package:remember_me/constant.dart';
 import 'package:remember_me/model/input/login_input.dart';
 import 'package:remember_me/model/login_response.dart';
+import 'package:sp_util/sp_util.dart';
 
 class LoginController extends GetxController with StateMixin<dynamic> {
   final AuthProvider _authProvider = AuthProvider();
 
   late TextEditingController email;
   late TextEditingController password;
-  final box = GetStorage();
   late FocusNode focusNode;
 
   Rx<bool> loading = false.obs;
@@ -61,8 +60,8 @@ class LoginController extends GetxController with StateMixin<dynamic> {
       switch (res.statusCode) {
         case 200:
           LoginResponse successResponse = LoginResponse.fromJson(res.body);
-          box.write(Constant.token_key, successResponse.token);
-          box.write(Constant.auth_state_key, successResponse.authState);
+          SpUtil.putString(Constant.token_key, successResponse.token);
+          SpUtil.putObject(Constant.auth_state_key, successResponse.authState);
           reset();
           Get.offAndToNamed(Routes.HOME);
           break;

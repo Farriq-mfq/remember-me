@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:remember_me/app/data/todo_provider.dart';
 import 'package:remember_me/app/routes/app_pages.dart';
 import 'package:remember_me/constant.dart';
 import 'package:remember_me/model/todo_response.dart';
+import 'package:sp_util/sp_util.dart';
 
 class TodoController extends GetxController
     with StateMixin<List<TodoResponse>> {
   final TodoProvider _todoProvider = TodoProvider();
-  final box = GetStorage();
 
   Rx<String> selectedTab = "All".obs;
 
@@ -54,8 +53,8 @@ class TodoController extends GetxController
           }
           break;
         case 401:
-          box.remove(Constant.token_key);
-          box.remove(Constant.auth_state_key);
+          SpUtil.remove(Constant.token_key);
+          SpUtil.remove(Constant.auth_state_key);
           Get.offAndToNamed(Routes.LOGIN);
           break;
       }
@@ -78,8 +77,8 @@ class TodoController extends GetxController
           }
           break;
         case 401:
-          box.remove(Constant.token_key);
-          box.remove(Constant.auth_state_key);
+          SpUtil.remove(Constant.token_key);
+          SpUtil.remove(Constant.auth_state_key);
           Get.offAndToNamed(Routes.LOGIN);
           break;
       }
@@ -87,6 +86,7 @@ class TodoController extends GetxController
       change(onError, status: RxStatus.error());
     });
   }
+
   Future<void> searchTaskBydate(DateTime date) async {
     _todoProvider.searchTodosByDate(date).then((response) {
       switch (response.statusCode) {
@@ -101,8 +101,8 @@ class TodoController extends GetxController
           }
           break;
         case 401:
-          box.remove(Constant.token_key);
-          box.remove(Constant.auth_state_key);
+          SpUtil.remove(Constant.token_key);
+          SpUtil.remove(Constant.auth_state_key);
           Get.offAndToNamed(Routes.LOGIN);
           break;
       }
@@ -118,8 +118,8 @@ class TodoController extends GetxController
           print('success');
           break;
         case 401:
-          box.remove(Constant.token_key);
-          box.remove(Constant.auth_state_key);
+          SpUtil.remove(Constant.token_key);
+          SpUtil.remove(Constant.auth_state_key);
           Get.offAndToNamed(Routes.LOGIN);
           break;
       }

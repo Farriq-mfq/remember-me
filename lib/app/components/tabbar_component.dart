@@ -1,10 +1,10 @@
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:remember_me/app/routes/app_pages.dart';
 import 'package:remember_me/constant.dart';
 import 'package:remember_me/model/onboarding_model.dart';
+import 'package:sp_util/sp_util.dart';
 
 class TabbarComponents extends StatefulWidget {
   final List<OnboardingModel> listOnboardings;
@@ -34,7 +34,6 @@ class _TabbarComponentsState extends State<TabbarComponents>
   }
 
   bool showBackButton = false;
-  final box = GetStorage();
   late TabController _tabController;
   @override
   void initState() {
@@ -75,7 +74,7 @@ class _TabbarComponentsState extends State<TabbarComponents>
   }
 
   void _closeOnboarding() {
-    box.write(Constant.on_boarding_key, true);
+    SpUtil.putBool(Constant.on_boarding_key, true);
     Get.offAndToNamed(Routes.WELCOME);
   }
 

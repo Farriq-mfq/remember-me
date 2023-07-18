@@ -17,7 +17,7 @@ class LoginView extends GetView<LoginController> {
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
             onTap: () {
-              Get.back();
+              Get.offAndToNamed(Routes.WELCOME);
             },
             child: Container(
               padding: const EdgeInsets.all(4),

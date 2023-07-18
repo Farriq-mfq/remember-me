@@ -21,6 +21,7 @@ class OnboardingController extends GetxController {
         description:
             "You can organize your daily tasks by adding your tasks into separate categories"),
   ];
+
   @override
   void onInit() {
     super.onInit();
@@ -40,5 +41,4 @@ class OnboardingController extends GetxController {
   void dispose() {
     super.dispose();
   }
-
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:remember_me/app/controllers/todo_controller.dart';
 import 'package:remember_me/app/data/category_provider.dart';
@@ -11,6 +10,7 @@ import 'package:remember_me/constant.dart';
 import 'package:remember_me/model/category_response.dart';
 import 'package:remember_me/model/input/todo_input.dart';
 import 'package:remember_me/model/todo_response.dart';
+import 'package:sp_util/sp_util.dart';
 
 class AddTaskController extends GetxController
     with StateMixin<List<CategoryResponse>> {
@@ -27,8 +27,6 @@ class AddTaskController extends GetxController
   Rx<CategoryResponse> selected_category =
       CategoryResponse(id: 0, categoryName: "", categoryColor: "", icon: null)
           .obs;
-  // local storage
-  final box = GetStorage();
   Rx<Map<String, dynamic>> validations = Rx<Map<String, dynamic>>({});
 
   @override
@@ -75,7 +73,9 @@ class AddTaskController extends GetxController
     TodoInput todoInput = TodoInput(
       title: title.text,
       content: content.text,
-      idCategory: selected_category.value.id,
+      idCategory: selected_category.value.id != 0
+          ? selected_category.value.id.toString()
+          : "",
     );
     _todoProvider.postTodo(todoInput).then((response) {
       switch (response.statusCode) {
@@ -94,8 +94,8 @@ class AddTaskController extends GetxController
           }
           break;
         case 401:
-          box.remove(Constant.token_key);
-          box.remove(Constant.auth_state_key);
+          SpUtil.remove(Constant.token_key);
+          SpUtil.remove(Constant.auth_state_key);
           Get.offAndToNamed(Routes.LOGIN);
           break;
         default:
@@ -123,7 +123,9 @@ class AddTaskController extends GetxController
     TodoInput todoInput = TodoInput(
       title: title.text,
       content: content.text,
-      idCategory: selected_category.value.id,
+      idCategory: selected_category.value.id != 0
+          ? selected_category.value.id.toString()
+          : "",
     );
     _todoProvider.updateTodo(todoInput, id).then((response) {
       switch (response.statusCode) {
@@ -141,8 +143,8 @@ class AddTaskController extends GetxController
           }
           break;
         case 401:
-          box.remove(Constant.token_key);
-          box.remove(Constant.auth_state_key);
+          SpUtil.remove(Constant.token_key);
+          SpUtil.remove(Constant.auth_state_key);
           Get.offAndToNamed(Routes.LOGIN);
           break;
         default:
@@ -174,8 +176,8 @@ class AddTaskController extends GetxController
           todo_controller.fetchTask(todo_controller.selectedTab.value);
           break;
         case 401:
-          box.remove(Constant.token_key);
-          box.remove(Constant.auth_state_key);
+          SpUtil.remove(Constant.token_key);
+          SpUtil.remove(Constant.auth_state_key);
           Get.offAndToNamed(Routes.LOGIN);
           break;
         default:
@@ -220,8 +222,8 @@ class AddTaskController extends GetxController
           }
           break;
         case 401:
-          box.remove(Constant.token_key);
-          box.remove(Constant.auth_state_key);
+          SpUtil.remove(Constant.token_key);
+          SpUtil.remove(Constant.auth_state_key);
           Get.offAndToNamed(Routes.LOGIN);
           break;
         default:

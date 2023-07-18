@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:remember_me/app/data/category_provider.dart';
 import 'package:remember_me/app/routes/app_pages.dart';
 import 'package:remember_me/constant.dart';
 import 'package:remember_me/model/IconResponse.dart';
 import 'package:remember_me/model/input/category_input.dart';
+import 'package:sp_util/sp_util.dart';
 
 class CategoryController extends GetxController
     with StateMixin<List<IconResponse>> {
@@ -15,8 +15,6 @@ class CategoryController extends GetxController
   final CategoryProvider _categoryProvider = CategoryProvider();
   // controller
   late TextEditingController category_name;
-  // local storage
-  final box = GetStorage();
   // stete
   Rx<Map<String, dynamic>> validations = Rx<Map<String, dynamic>>({});
   Rx<bool> loading = false.obs;
@@ -66,8 +64,8 @@ class CategoryController extends GetxController
           print(validations);
           break;
         case 401:
-          box.remove(Constant.token_key);
-          box.remove(Constant.auth_state_key);
+          SpUtil.remove(Constant.token_key);
+          SpUtil.remove(Constant.auth_state_key);
           Get.offAndToNamed(Routes.LOGIN);
           break;
       }
@@ -106,8 +104,8 @@ class CategoryController extends GetxController
           }
           break;
         case 401:
-          box.remove(Constant.token_key);
-          box.remove(Constant.auth_state_key);
+          SpUtil.remove(Constant.token_key);
+          SpUtil.remove(Constant.auth_state_key);
           Get.offAndToNamed(Routes.LOGIN);
           break;
         default:

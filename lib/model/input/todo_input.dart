@@ -7,7 +7,7 @@ String todoInputToJson(TodoInput data) => json.encode(data.toJson());
 class TodoInput {
   String title;
   String content;
-  int idCategory;
+  String idCategory;
 
   TodoInput({
     required this.title,

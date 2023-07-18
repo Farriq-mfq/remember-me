@@ -116,7 +116,7 @@ class DetailTask extends StatelessWidget {
                                     backgroundColor: Color(0xff363636),
                                     contentPadding: const EdgeInsets.all(15),
                                     content: Text(
-                                      "Press Ok if you want to delete this task",
+                                      "Press yes if you want to delete this task",
                                       style: TextStyle(
                                           color: Color(0xffFFFFFF),
                                           fontSize: 16),

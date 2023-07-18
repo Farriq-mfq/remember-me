@@ -12,12 +12,14 @@ dependencies:
   heroicons:
   flutter_svg:
   table_calendar: 
-  get_storage:
   flutter_colorpicker:
+  sp_util:
   flutter:
     sdk: flutter
 
 dev_dependencies:
+  flutter_launcher_icons: 
+  flutter_native_splash:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
@@ -29,3 +31,15 @@ flutter:
     - assets/icons/
     - assets/icons/outline/
     - assets/icons/bold/
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.png"
+
+flutter_native_splash:
+  color: "FFFFFF"
+  image: "assets/logo.png"
+  android: true
+  ios: true
+  android_disable_fullscreen: true

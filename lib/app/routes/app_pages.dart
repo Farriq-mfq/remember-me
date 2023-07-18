@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:remember_me/app/middlewares/auth_middleware.dart';
 import 'package:remember_me/app/middlewares/guest_middleware.dart';
-import 'package:remember_me/app/middlewares/onboarding_middleware.dart';
+import "package:remember_me/app/middlewares/onboarding_middleware.dart";
 
 import '../modules/Calender/bindings/calender_binding.dart';
 import '../modules/Calender/views/calender_view.dart';
@@ -27,7 +27,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.ONBOARDING;
+  static const INITIAL = Routes.HOME;
 
   static final routes = [
     GetPage(
@@ -35,66 +35,59 @@ class AppPages {
       page: () => const HomeView(),
       binding: HomeBinding(),
       transition: Transition.noTransition,
-      middlewares: [
-        AuthMiddleware(),
-      ],
+      middlewares: [AuthMiddleware(), OnBoardingMiddleware()],
     ),
     GetPage(
         name: _Paths.ONBOARDING,
         page: () => const OnboardingView(),
         binding: OnboardingBinding(),
-        transition: Transition.noTransition,
-        middlewares: [OnboardingMiddleware()]),
+        transition: Transition.noTransition),
     GetPage(
         name: _Paths.WELCOME,
         page: () => const WelcomeView(),
         binding: WelcomeBinding(),
         transition: Transition.noTransition,
-        middlewares: [
-          GuestMiddleware(),
-        ]),
+        middlewares: [GuestMiddleware(), OnBoardingMiddleware()]),
     GetPage(
       name: _Paths.LOGIN,
       page: () => const LoginView(),
       binding: LoginBinding(),
       transition: Transition.noTransition,
-      middlewares: [
-        GuestMiddleware(),
-      ],
+      middlewares: [GuestMiddleware(), OnBoardingMiddleware()],
     ),
     GetPage(
         name: _Paths.REGISTER,
         page: () => const RegisterView(),
         binding: RegisterBinding(),
         transition: Transition.noTransition,
-        middlewares: [
-          GuestMiddleware(),
-        ]),
+        middlewares: [GuestMiddleware(), OnBoardingMiddleware()]),
     GetPage(
       name: _Paths.CATEGORY,
       page: () => const CategoryView(),
       binding: CategoryBinding(),
       transition: Transition.noTransition,
+      middlewares: [AuthMiddleware(), OnBoardingMiddleware()],
     ),
     GetPage(
       name: _Paths.CALENDER,
       page: () => const CalenderView(),
       binding: CalenderBinding(),
       transition: Transition.noTransition,
+      middlewares: [AuthMiddleware(), OnBoardingMiddleware()],
     ),
     GetPage(
       name: _Paths.HISTORY,
       page: () => const HistoryView(),
       binding: HistoryBinding(),
       transition: Transition.noTransition,
+      middlewares: [AuthMiddleware(), OnBoardingMiddleware()],
     ),
     GetPage(
-        name: _Paths.PROFILE,
-        page: () => const ProfileView(),
-        binding: ProfileBinding(),
-        transition: Transition.noTransition,
-        middlewares: [
-          AuthMiddleware(),
-        ]),
+      name: _Paths.PROFILE,
+      page: () => const ProfileView(),
+      binding: ProfileBinding(),
+      transition: Transition.noTransition,
+      middlewares: [AuthMiddleware(), OnBoardingMiddleware()],
+    ),
   ];
 }

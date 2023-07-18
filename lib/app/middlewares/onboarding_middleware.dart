@@ -1,18 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:remember_me/app/modules/Onboarding/controllers/onboarding_controller.dart';
 import 'package:remember_me/app/routes/app_pages.dart';
 import 'package:remember_me/constant.dart';
+import 'package:sp_util/sp_util.dart';
 
-class OnboardingMiddleware extends GetMiddleware {
+class OnBoardingMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
-    final box = GetStorage();
-    bool show_onboarding = box.read(Constant.on_boarding_key) ?? false;
-    if (show_onboarding) {
-      return const RouteSettings(name: Routes.WELCOME);
+    bool? onboarding =
+        SpUtil.getBool(Constant.on_boarding_key, defValue: false);
+    if (onboarding != null) {
+      if (onboarding) {
+        return null;
+      } else {
+        return const RouteSettings(name: Routes.ONBOARDING);
+      }
     } else {
-      return null;
+      return const RouteSettings(name: Routes.ONBOARDING);
     }
   }
 }

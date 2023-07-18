@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:remember_me/app/routes/app_pages.dart';
+import 'package:remember_me/constant.dart';
 
 import '../controllers/welcome_controller.dart';
 

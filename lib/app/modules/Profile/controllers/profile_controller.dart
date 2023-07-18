@@ -1,12 +1,10 @@
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:remember_me/app/data/auth_provider.dart';
 import 'package:remember_me/app/routes/app_pages.dart';
 import 'package:remember_me/constant.dart';
 
 class ProfileController extends GetxController {
   final AuthProvider _authProvider = AuthProvider();
-  final box = GetStorage();
 
   @override
   void onInit() {
