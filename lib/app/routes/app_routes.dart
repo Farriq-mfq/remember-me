@@ -12,6 +12,7 @@ abstract class Routes {
   static const CALENDER = _Paths.CALENDER;
   static const HISTORY = _Paths.HISTORY;
   static const PROFILE = _Paths.PROFILE;
+  static const SPLASH = _Paths.SPLASH;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const CALENDER = '/calender';
   static const HISTORY = '/history';
   static const PROFILE = '/profile';
+  static const SPLASH = '/splash';
 }

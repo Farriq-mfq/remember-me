@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:remember_me/app/middlewares/auth_middleware.dart';
 import 'package:remember_me/app/middlewares/guest_middleware.dart';
 import "package:remember_me/app/middlewares/onboarding_middleware.dart";
+import 'package:remember_me/app/views/views/splash_view.dart';
 
 import '../modules/Calender/bindings/calender_binding.dart';
 import '../modules/Calender/views/calender_view.dart';
@@ -27,7 +28,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.SPLASH;
 
   static final routes = [
     GetPage(
@@ -89,5 +90,9 @@ class AppPages {
       transition: Transition.noTransition,
       middlewares: [AuthMiddleware(), OnBoardingMiddleware()],
     ),
+    GetPage(
+      name: _Paths.SPLASH,
+      page: () => const SplashView(),
+    )
   ];
 }

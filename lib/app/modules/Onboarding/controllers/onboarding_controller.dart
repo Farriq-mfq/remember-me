@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:remember_me/app/routes/app_pages.dart';
 import 'package:remember_me/model/onboarding_model.dart';
 
 class OnboardingController extends GetxController {
@@ -40,5 +41,14 @@ class OnboardingController extends GetxController {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Future<void> redirectToWelcome() async {
+    Future.delayed(
+      Duration(seconds: 1),
+      () {
+        Get.offAndToNamed(Routes.WELCOME);
+      },
+    );
   }
 }
