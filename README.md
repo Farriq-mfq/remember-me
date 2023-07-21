@@ -1,16 +1,17 @@
-# remember_me
+# Remember Me
 
-A new Flutter project.
+Simple task list app
 
-## Getting Started
+# Features
 
-This project is a starting point for a Flutter application.
+- Management task
+- Authentication
+- Create own category
+- Custom icon category
+- Custom Color Category
 
-A few resources to get you started if this is your first Flutter project:
+# ScreenShoot
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Rest Api Repo
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<a href="https://github.com/Farriq-mfq/RememberMe-Rest-Api">Remember Me rest api ( PRESS ME ) 😁</a>
